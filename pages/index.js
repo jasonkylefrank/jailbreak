@@ -13,7 +13,7 @@ export default function Home() {
           Welcome to Jailbreak!
         </h1>
 
-        This was added in the 'dev' branch
+        <p>This was added in the 'dev' branch</p>
 
       </main>
 
