@@ -1,4 +1,11 @@
-import Head from 'next/head'
+import Head from 'next/head';
+import styled from 'styled-components';
+
+const P = styled.p`
+  color: ${({theme}) => theme.colors.primary};
+`;
+
+
 
 export default function Home() {
   return (
@@ -13,7 +20,7 @@ export default function Home() {
           Welcome to Jailbreak!
         </h1>
 
-        <p>This was added in the <code>dev</code> branch</p>
+        <P>This was added in the <code>dev</code> branch</P>
 
       </main>
 
