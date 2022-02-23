@@ -13,6 +13,7 @@ export default function Home() {
           Welcome to Jailbreak!
         </h1>
 
+        This was added in the 'dev' branch
 
       </main>
 
