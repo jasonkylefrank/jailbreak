@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import Avatar from './Avatar';
+import { useContext } from "react";
+import { UserContext } from "../lib/context";
 
 const Header = styled.header`
     padding: 12px;
@@ -15,7 +17,10 @@ const H1 = styled.h1`
     font-size: 24px;
 `;
 
-export default function PageHeader({ avatarSrc }) {
+export default function PageHeader() {
+
+    const { user } = useContext(UserContext);
+    const avatarSrc = user?.currentUser;  // TODO: Finish getting the real property
 
     return (
         <Header>

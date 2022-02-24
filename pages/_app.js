@@ -7,6 +7,9 @@ import { ThemeProvider as MUIThemeProvider, createTheme as createMUITheme, Style
 import { ThemeProvider } from 'styled-components';
 import muiCompatibleTheme from '../styles/theme';
 import GlobalStyle from '../styles/globalStyles';
+import { UserContext } from '../lib/context';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../lib/firebase';
 
 // Theme approach:  
 //   (1) Create my own theme but use MUI's theme spec, meaning that I use 
@@ -17,6 +20,9 @@ import GlobalStyle from '../styles/globalStyles';
 const muiTheme = createMUITheme(muiCompatibleTheme);
 
 function MyApp({ Component, pageProps }) {
+
+  const [user] = useAuthState(auth);
+
   return (
     <>
       <GlobalStyle />
@@ -30,7 +36,9 @@ function MyApp({ Component, pageProps }) {
             I'm passing it a regular object like the Styled Components docs show. */}
             {/* <ThemeProvider theme={muiTheme}> */}
 
-                <Component {...pageProps} />
+                <UserContext.Provider value={{ user }}>
+                  <Component {...pageProps} />
+                </UserContext.Provider>
             </ThemeProvider>
           </MUIThemeProvider>
         </StyledEngineProvider>

@@ -1,7 +1,16 @@
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { signInWithPopup, signOut, GoogleAuthProvider } from "firebase/auth";
 import { auth, googleAuthProvider } from "../lib/firebase";
 import styled from "styled-components";
 import Button from '@mui/material/Button';
+import { useContext } from "react";
+import { UserContext } from "../lib/context";
+
+const Page = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+`;
 
 const GoogleGSVGWrapper = styled.span`
   display: inline-flex;
@@ -17,27 +26,21 @@ const GoogleGSVGWrapper = styled.span`
 `;
 
 export default function WelcomeLogIn() {
-  let user = null;
-
+  const { user } = useContext(UserContext);
 
   return (
-    <>
+    <Page>
       {
         user ? <LogOutButton /> : <LogInButton />
       }
-    </>
+    </Page>
   );
 }
 
 
 function LogInButton() {
   const signInWithGoogle = async () => {
-    try {
-      console.log('In signInWithGoogle');
-
-      //console.log(auth);
-
-      //await auth.signInWithPopup(googleAuthProvider);     
+    try {  
       await signInWithPopup(auth, googleAuthProvider);
 
       // TODO: React to the logged-in state
@@ -65,7 +68,7 @@ function LogInButton() {
 
 function LogOutButton() {
   return (
-    <Button onClick={() => auth.signOut()}>Log out</Button>
+    <Button onClick={() => signOut(auth)}>Log out</Button>
   );
 }
 

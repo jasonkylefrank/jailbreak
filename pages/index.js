@@ -13,6 +13,7 @@ const Page = styled.div`
 const Main = styled.main`
   padding: 16px;
   flex: 1;
+  
 `;
 
 const Footer = styled.footer`
