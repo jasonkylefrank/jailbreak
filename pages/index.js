@@ -1,6 +1,11 @@
 import Head from 'next/head';
 import styled from 'styled-components';
-import Button from '@mui/material/Button'
+import PageHeader from '../components/pageHeader';
+
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 
 const P = styled.p`  
   color: ${
@@ -12,19 +17,23 @@ const TestButton = styled(Button)`
   color: red;
 `;
 
+const Main = styled.main`
+  padding: 16px;
+  
+  background: yellow;
+`;
 
 export default function Home() {
   return (
     <div>
       <Head>
         <title>Jailbreak</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.ico" />    
+        {/* Also see stuff put in a <Head> element in the _document.js file (such as fonts, which Next.js won't let me put here)     */}
       </Head>
 
-      <main>
-        <h1>
-          Welcome to Jailbreak!
-        </h1>
+      <PageHeader />
+      <Main>
 
         <TestButton>Styled Component button (style override)</TestButton>
 
@@ -33,7 +42,10 @@ export default function Home() {
         <P>Styled Component paragraph, inheriting a primary theme color</P>
         <P useContrastText={true}>Styled Component paragraph with <strong>useContrastText prop</strong></P>
 
-      </main>
+        <IconButton>
+          <ExpandMoreIcon />
+        </IconButton>
+      </Main>
 
       <footer>
         
