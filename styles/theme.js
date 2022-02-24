@@ -4,8 +4,8 @@
 const muiCompatibleTheme = {
     palette: {        
         primary: {
-            main: '#00ff00',
-            contrastText: '#00aaaa'
+            main: '#06a5eb',
+            //contrastText: '#fff'
         }
     }
 };
