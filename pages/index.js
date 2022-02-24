@@ -1,10 +1,16 @@
 import Head from 'next/head';
 import styled from 'styled-components';
+import Button from '@mui/material/Button'
 
-const P = styled.p`
-  color: ${({theme}) => theme.colors.primary};
+const P = styled.p`  
+  color: ${
+    ({ theme, useContrastText }) => useContrastText ? theme.palette.primary.contrastText : theme.palette.primary.main
+  }
 `;
 
+const TestButton = styled(Button)`
+  color: red;
+`;
 
 
 export default function Home() {
@@ -20,7 +26,12 @@ export default function Home() {
           Welcome to Jailbreak!
         </h1>
 
-        <P>This was added in the <code>dev</code> branch</P>
+        <TestButton>Styled Component button (style override)</TestButton>
+
+        <Button>Regular MUI button (inherits my custom theme)</Button>
+
+        <P>Styled Component paragraph, inheriting a primary theme color</P>
+        <P useContrastText={true}>Styled Component paragraph with <strong>useContrastText prop</strong></P>
 
       </main>
 
