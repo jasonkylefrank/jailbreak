@@ -21,22 +21,24 @@ export default function WelcomeLogIn() {
 
     if (userAuth) {
       
-      try {        
-        const userDocRef = doc(firestore, 'users', userAuth.uid);
-        const userDocSnap = getDoc(userDocRef);
-        console.log(userDocSnap);
-        
-        // Add a new user doc if this user doesn't have one yet
-        if (!userDocSnap.exists()) {
-          const { uid, displayName, email, photoURL } = userAuth;
-
-          setDoc(userDocRef, {
-            uid,
-            displayName,
-            email,
-            photoURL
-          });
-        }
+      try { 
+        ( async () => {
+          const userDocRef = doc(firestore, 'users', userAuth.uid);
+          const userDocSnap = await getDoc(userDocRef);
+          console.log(userDocSnap);
+          
+          // Add a new user doc if this user doesn't have one yet
+          if (!userDocSnap.exists()) {
+            const { uid, displayName, email, photoURL } = userAuth;
+  
+            await setDoc(userDocRef, {
+              uid,
+              displayName,
+              email,
+              photoURL
+            });
+          }
+        })();       
       } catch (error) {
         console.error(error);
       }
