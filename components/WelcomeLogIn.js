@@ -1,9 +1,10 @@
 import { signOut } from "firebase/auth";
-import { auth } from "../lib/firebase";
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { auth, firestore } from "../lib/firebase";
 import LogInButton from "./LogInButton";
 import styled from "styled-components";
 import Button from '@mui/material/Button';
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { UserAuthContext } from "../lib/context";
 
 const Page = styled.div`
@@ -15,6 +16,34 @@ const Page = styled.div`
 
 export default function WelcomeLogIn() {
   const { userAuth } = useContext(UserAuthContext);
+
+  useEffect(() => {
+
+    if (userAuth) {
+      
+      try {        
+        const userDocRef = doc(firestore, 'users', userAuth.uid);
+        const userDocSnap = getDoc(userDocRef);
+        console.log(userDocSnap);
+        
+        // Add a new user doc if this user doesn't have one yet
+        if (!userDocSnap.exists()) {
+          const { uid, displayName, email, photoURL } = userAuth;
+
+          setDoc(userDocRef, {
+            uid,
+            displayName,
+            email,
+            photoURL
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+      
+  }, [userAuth]);
+  
 
   return (
     <Page>
