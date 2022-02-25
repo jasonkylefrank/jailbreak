@@ -5,12 +5,12 @@ const AvatarImg = styled.img`
     border-radius: 100%;
 `;
 
-export default function Avatar({ src }) {
+export default function Avatar({ src, onClick }) {
   const diceBearSeed = 'jailbreak' + Date.now;
   // Dicebear: https://avatars.dicebear.com/
   const source = src || `https://avatars.dicebear.com/api/open-peeps/:${diceBearSeed}.svg`;
 
   return (
-    <AvatarImg src={source} alt="Avatar"></AvatarImg>
+    <AvatarImg src={source} alt="Avatar" onClick={onClick}></AvatarImg>
   );
 }
