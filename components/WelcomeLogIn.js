@@ -1,10 +1,10 @@
-import { signInWithPopup, signOut, GoogleAuthProvider } from "firebase/auth";
-import { auth, googleAuthProvider } from "../lib/firebase";
+import { signOut } from "firebase/auth";
+import { auth } from "../lib/firebase";
 import LogInButton from "./LogInButton";
 import styled from "styled-components";
 import Button from '@mui/material/Button';
 import { useContext } from "react";
-import { UserContext } from "../lib/context";
+import { UserAuthContext } from "../lib/context";
 
 const Page = styled.div`
   display: flex;
@@ -14,12 +14,12 @@ const Page = styled.div`
 `;
 
 export default function WelcomeLogIn() {
-  const { user } = useContext(UserContext);
+  const { userAuth } = useContext(UserAuthContext);
 
   return (
     <Page>
       {
-        user ? <LogOutButton /> : <LogInButton />
+        userAuth ? <LogOutButton /> : <LogInButton />
       }
     </Page>
   );

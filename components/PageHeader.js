@@ -1,14 +1,12 @@
-import { signInWithPopup, signOut, GoogleAuthProvider } from "firebase/auth";
-import { auth, googleAuthProvider } from "../lib/firebase";
+import { signOut } from "firebase/auth";
+import { auth  } from "../lib/firebase";
 import styled from "styled-components";
-import Button from '@mui/material/Button';
-import Popover from '@mui/material/Popover';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Avatar from './Avatar';
 import LogInButton from "./LogInButton";
 import { useContext, useState } from "react";
-import { UserContext } from "../lib/context";
+import { UserAuthContext } from "../lib/context";
 
 const Header = styled.header`
     padding: 12px;
@@ -28,8 +26,8 @@ export default function PageHeader() {
 
     const [popoverAnchorEl, setPopoverAnchorEl] = useState(null);
 
-    const { user } = useContext(UserContext);
-    const avatarSrc = user?.photoURL;
+    const { userAuth } = useContext(UserAuthContext);
+    const avatarSrc = userAuth?.photoURL;
 
     const handleAvatarClick = (e) => setPopoverAnchorEl(e.currentTarget);
     const handlePopoverClose = () => setPopoverAnchorEl(null);
@@ -56,7 +54,7 @@ export default function PageHeader() {
                 }}
             >
                 {
-                    user
+                    userAuth
                         ? <MenuItem onClick={() => signOut(auth)}>Log out</MenuItem>                        
                         : <LogInButton rootComponent={MenuItem} />
                 }
