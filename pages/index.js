@@ -11,7 +11,10 @@ const Page = styled.div`
 `;
 
 const Main = styled.main`
+  display: flex;
+  flex-direction: column;
   padding: 16px;
+  ${'' /* So that it takes up all remaining space */}
   flex: 1;
   
 `;
