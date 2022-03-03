@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "firebase-emulate": "firebase emulators:start",
+    "firebase-emulate": "firebase emulators:start  --import=./emulator-data  --export-on-exit",
     "next-dev": "next dev",
 
     "dev": "npm-run-all --parallel  firebase-emulate  next-dev",
