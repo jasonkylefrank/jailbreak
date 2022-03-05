@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import styled from "styled-components";
 import PageHeader from './PageHeader';
+import RenderOnClientOnly from './RenderOnClientOnly';
 import EmulationNotice from './EmulationNotice';
 import { emulatedFirebaseServices } from '../lib/firebase';
 
@@ -37,7 +38,7 @@ export default function Layout({ children }) {
   return (
     <Wrapper>
       <Head>
-        <title>Jailbreak</title>
+        <title>Jailbreak!</title>
         <link rel="icon" href="/favicon.ico" />    
         {/* Also see stuff put in a <Head> element in the _document.js file (such as fonts, which Next.js won't let me put here)     */}
       </Head>
@@ -52,9 +53,11 @@ export default function Layout({ children }) {
         Powered by D3.js, Next.js, Styled Components, MUI v5, and Firebase technologies
       </Footer>
 
-      {
-        emulatedFirebaseServices && <EmulationNotice />
-      }
+      <RenderOnClientOnly>
+        {
+          emulatedFirebaseServices && <EmulationNotice />
+        }
+      </RenderOnClientOnly>
     </Wrapper>
   );
 }

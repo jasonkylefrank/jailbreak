@@ -17,8 +17,7 @@ export default function Home() {
   return (
     <Page>
 
-        <WelcomeLogIn />
-
+        <WelcomeLogIn />        
     </Page>
   )
 }
