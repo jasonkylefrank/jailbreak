@@ -50,15 +50,19 @@ export default function WelcomeLogIn() {
   // TEMP ---------
   useEffect(() => {
     ( async () => {
-        try {
-          const docsSnapshot = await getDocs(collection(firestore, 'users'));
-      
-          docsSnapshot.forEach(doc => console.log(doc.data()));          
-        } catch (error) {
-          console.log(error);
+        if (userAuth) {
+          try {
+            const docsSnapshot = await getDocs(collection(firestore, 'users'));
+        
+            docsSnapshot.forEach(doc => console.log(doc.data()));          
+          } catch (error) {
+            console.log(error);
+          }          
+        } else {
+          console.log('User not logged in, so I\'m not trying to read from the database');
         }
     })();    
-  }, []);
+  }, [userAuth]);
   
   
 
