@@ -16,7 +16,7 @@ exports.respondToNewUser = functions.firestore.document('users/{uid}').onCreate(
     return null;
   });
 
-  exports.respondToUpdatedUser = functions.firestore.document('users/{uid}').onUpdate(
+exports.respondToUpdatedUser = functions.firestore.document('users/{uid}').onUpdate(
     (snap, context) => {
       console.log('Existing user updated... ');
       console.log('Before the new write: ')
