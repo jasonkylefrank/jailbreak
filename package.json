@@ -3,8 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "firebase-emulate": "firebase emulators:start  --import=./emulator-data  --export-on-exit",
+    "next-dev": "next dev",
+
+    "dev": "npm-run-all --parallel  firebase-emulate  next-dev",
+
     "dev:static": "serve ./out",
+    "dev:prod-backend": "next dev",
     "build": "next build && next export",
     "start": "next start",
     "lint": "next lint"
@@ -24,6 +29,7 @@
   },
   "devDependencies": {
     "eslint": "8.9.0",
-    "eslint-config-next": "12.1.0"
+    "eslint-config-next": "12.1.0",
+    "npm-run-all": "^4.1.5"
   }
 }

@@ -10,6 +10,8 @@ import GlobalStyle from '../styles/globalStyles';
 import { UserAuthContext } from '../lib/context';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../lib/firebase';
+import Layout from '../components/Layout';
+
 
 // Theme approach:  
 //   (1) Create my own theme but use MUI's theme spec, meaning that I use 
@@ -37,7 +39,9 @@ function MyApp({ Component, pageProps }) {
             {/* <ThemeProvider theme={muiTheme}> */}
 
                 <UserAuthContext.Provider value={{ userAuth }}>
-                  <Component {...pageProps} />
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
                 </UserAuthContext.Provider>
             </ThemeProvider>
           </MUIThemeProvider>

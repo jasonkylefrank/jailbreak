@@ -1,5 +1,5 @@
 import { signOut } from "firebase/auth";
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, collection, getDocs } from 'firebase/firestore';
 import { auth, firestore } from "../lib/firebase";
 import LogInButton from "./LogInButton";
 import styled from "styled-components";
@@ -9,6 +9,7 @@ import { UserAuthContext } from "../lib/context";
 
 const Page = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   flex: 1;
@@ -17,6 +18,7 @@ const Page = styled.div`
 export default function WelcomeLogIn() {
   const { userAuth } = useContext(UserAuthContext);
 
+  // Handle user log in event
   useEffect(() => {
 
     if (userAuth) {
@@ -25,7 +27,6 @@ export default function WelcomeLogIn() {
         ( async () => {
           const userDocRef = doc(firestore, 'users', userAuth.uid);
           const userDocSnap = await getDoc(userDocRef);
-          console.log(userDocSnap);
           
           // Add a new user doc if this user doesn't have one yet
           if (!userDocSnap.exists()) {
@@ -45,12 +46,36 @@ export default function WelcomeLogIn() {
     }
       
   }, [userAuth]);
+
+  // TEMP ---------
+  useEffect(() => {
+    ( async () => {
+        if (userAuth) {
+          try {
+            const docsSnapshot = await getDocs(collection(firestore, 'users'));
+        
+            docsSnapshot.forEach(doc => console.log(doc.data()));          
+          } catch (error) {
+            console.log(error);
+          }          
+        } else {
+          console.log('User not logged in, so I\'m not trying to read from the database');
+        }
+    })();    
+  }, [userAuth]);
+  
   
 
   return (
     <Page>
       {
-        userAuth ? <LogOutButton /> : <LogInButton />
+        userAuth 
+          ?
+            <>
+              <p>Welcome, {userAuth.displayName}!</p>
+              <LogOutButton />
+            </>          
+          : <LogInButton />
       }
     </Page>
   );
