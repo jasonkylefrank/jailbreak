@@ -9,19 +9,23 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
 });
 
 
-exports.respondToNewUser = functions.firestore.document('users/{uid}').onCreate(
-  (snap, context) => {
-    console.log('New user created... ');
-    console.log(snap.data());
-    return null;
-  });
-
-exports.respondToUpdatedUser = functions.firestore.document('users/{uid}').onUpdate(
+exports.respondToNewUser = functions.firestore.document("users/{uid}")
+  .onCreate(
     (snap, context) => {
-      console.log('Existing user updated... ');
-      console.log('Before the new write: ')
+      console.log("New user created... ");
+      console.log(snap.data());
+      return null;
+    }
+  );
+
+exports.respondToUpdatedUser = functions.firestore.document("users/{uid}")
+  .onUpdate(
+    (snap, context) => {
+      console.log("Existing user updated... ");
+      console.log("Before the new write: ");
       console.log(snap.before.data());
-      console.log('After the new write: ')
+      console.log("After the new write: ");
       console.log(snap.after.data());
       return null;
-    });
+    }
+  );

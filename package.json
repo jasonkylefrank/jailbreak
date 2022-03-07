@@ -11,8 +11,10 @@
     "dev:static": "serve ./out",
     "dev:prod-backend": "next dev",
     "build": "next build && next export",
+    "build:all": "npm run build  &&  cd functions  &&  npm i  &&  cd ..  &&  npm run lint:functions",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:functions": "cd functions && npm run lint"
   },
   "dependencies": {
     "@emotion/react": "^11.8.1",
