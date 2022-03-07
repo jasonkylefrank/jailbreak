@@ -1,0 +1,35 @@
+# Inspired by:
+#   * https://medium.com/mainlycoding-com/automate-firebase-functions-deployment-with-github-actions-ci-a0eb10fa308d
+#   * https://dev.to/calebdeji/automate-firebase-cloud-functions-deployment-with-github-actions-5dbc
+#   * https://github.com/w9jds/firebase-action
+#
+# Note: If I end up creating a separate Firebase project for a staging environment, see this
+#        answer about how to modify the "deploy --only functions" command: https://stackoverflow.com/a/62398821/718325 
+
+name: Firebase functions deploy
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+        # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+        - uses: actions/checkout@v2
+        # Runs a single command using the runners shell
+        - name: Install cloud functions npm packages
+          run: cd functions/ && npm ci
+        
+        - name: Deploy Functions to Firebase
+          uses: w9jds/firebase-action@master
+          with:
+            args: deploy --only functions
+          env:
+            # We need to either specify a FIREBASE_TOKEN or a GCP_SA_KEY environment variable.  
+            # See: https://github.com/w9jds/firebase-action#environment-variables
+            # Using a FIREBASE_TOKEN has worked better for me since it appears that the GCP_SA_KEY 
+            #  is meant for deploying to Firebase hosting.  See additional notes about this here: https://github.com/jasonkylefrank/react-firebase-chat/blob/master/.github/workflows/firebase-functions-deploy-on-merge.yml            
+            # To create the FIREBASE_TOKEN, I followed "Step 7" in this article and then saved that as a GitHub secret: https://medium.com/mainlycoding-com/automate-firebase-functions-deployment-with-github-actions-ci-a0eb10fa308d
+            FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

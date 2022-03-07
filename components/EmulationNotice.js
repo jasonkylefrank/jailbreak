@@ -6,6 +6,10 @@ import { emulatedFirebaseServices } from '../lib/firebase';
 
 //#region --- Styled Components ---
 const StyledTooltip = styled(Tooltip)`
+  ${'' 
+  /* TODO: Try to find a way to make the tooltip appear closer to the notice (right now it's 
+            probably messed up because of the rotated and fixed-position nature of the notice) 
+  */}
   ${'' /* left: 100px; */}
   ${'' /* margin: 0; */}
 `;
@@ -33,6 +37,7 @@ const EmulationTagline = styled.label`
   margin-bottom: 6px;
 `;
 
+// Possible Material icons: hub, laptop, dns, spoke
 const EmulationIcon = styled(HubIcon)`
   transform: rotate(45deg);
   height: 20px;
