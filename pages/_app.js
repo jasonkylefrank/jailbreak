@@ -28,24 +28,24 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <GlobalStyle />
-        {/* Need this so we can override MUI styles.  See: https://stackoverflow.com/a/69210767/718325 */}
-        <StyledEngineProvider injectFirst>
-          <MUIThemeProvider theme={muiTheme}>
-            <ThemeProvider theme={muiCompatibleTheme}>
+      {/* Need this so we can override MUI styles.  See: https://stackoverflow.com/a/69210767/718325 */}
+      <StyledEngineProvider injectFirst>
+        <MUIThemeProvider theme={muiTheme}>
+          <ThemeProvider theme={muiCompatibleTheme}>
 
-            {/* Passing the result of MUI's createTheme() to the Styled Components Theme Provider does
-            seem to work in my light testing but I'm hesitant to go with that approach so for now 
-            I'm passing it a regular object like the Styled Components docs show. */}
-            {/* <ThemeProvider theme={muiTheme}> */}
+          {/* Passing the result of MUI's createTheme() to the Styled Components Theme Provider does
+          seem to work in my light testing but I'm hesitant to go with that approach so for now 
+          I'm passing it a regular object like the Styled Components docs show. */}
+          {/* <ThemeProvider theme={muiTheme}> */}
 
-                <UserAuthContext.Provider value={{ userAuth }}>
-                  <Layout>
-                    <Component {...pageProps} />
-                  </Layout>
-                </UserAuthContext.Provider>
-            </ThemeProvider>
-          </MUIThemeProvider>
-        </StyledEngineProvider>
+              <UserAuthContext.Provider value={{ userAuth }}>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </UserAuthContext.Provider>
+          </ThemeProvider>
+        </MUIThemeProvider>
+      </StyledEngineProvider>
     </>
   );
 }
