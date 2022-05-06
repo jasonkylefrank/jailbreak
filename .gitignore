@@ -34,3 +34,9 @@ yarn-error.log*
 .vercel
 
 *.log
+
+# As of this writing I'm generating this file via a Firebase CLI call via an npm script.
+# I don't want it in source control because I have multiple Firebase projects and don't
+#  want a pull-request to "promote" the wrong config (i.e., I don't want the config for the
+#  staging project to make its way to the production branch via a pull request).
+firebase-config.*

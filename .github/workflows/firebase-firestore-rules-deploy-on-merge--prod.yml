@@ -11,9 +11,9 @@ jobs:
         # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
         - uses: actions/checkout@v2
         
-        - name: Deploy Firestore rules to Firebase
+        - name: Deploy Firestore rules to Firebase (Prod)
           uses: w9jds/firebase-action@master
           with:
-            args: deploy --only firestore:rules
+            args: deploy --only firestore:rules --project prod
           env:            
             FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

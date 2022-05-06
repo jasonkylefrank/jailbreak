@@ -26,10 +26,16 @@ const Footer = styled.footer`
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  padding: 0 24px;
 
   background-color: rgba(0,0,0,0.05);
   color: rgba(0,0,0,0.6);
-  font-size: 13px;
+
+  font-size: 11px;
+  @media (min-width: 560px) {
+    font-size: 13px;
+  }
 `;
 
 //#endregion --- end styled components ---
