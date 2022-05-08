@@ -6,6 +6,7 @@ import styled from "styled-components";
 import Button from '@mui/material/Button';
 import { useContext, useEffect } from "react";
 import { UserAuthContext } from "../lib/context";
+import { firebaseProjectId } from "../lib/firebase";
 
 const Page = styled.div`
   display: flex;
@@ -77,6 +78,8 @@ export default function WelcomeLogIn() {
             </>          
           : <LogInButton />
       }
+
+      <p>Current Firebase project ID: {firebaseProjectId}</p>
     </Page>
   );
 }
