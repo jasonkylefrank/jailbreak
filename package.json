@@ -37,10 +37,10 @@
     "build": "npm run get-firebase-config  &&  next build  &&  next export",
 
     "//build-ci:staging": "Build script for a CI/CD environment (e.g., GitHub actions) for the staging build. The 'firebase use __' is needed to set the Firebase project context so that the other firebase cli command which grabs project config will work correctly.",
-    "build-ci:staging": "firebase use staging  &&  npm run build",
+    "build-ci:staging": "firebase use staging --token '$FIREBASE_TOKEN'  &&  npm run build",
     
     "//build-ci:prod": "Build script for a CI/CD environment (e.g., GitHub actions) for the prod build",
-    "build-ci:prod": "firebase use prod  &&  npm run build",
+    "build-ci:prod": "firebase use prod --token '$FIREBASE_TOKEN'  &&  npm run build",
 
 
     "//build:emulators": "Builds front-end code for production, exports the static assets, generates a temporary env file so the Firebase emulators will be used instead of real backend",
