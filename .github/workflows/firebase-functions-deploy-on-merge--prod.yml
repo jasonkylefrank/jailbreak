@@ -6,7 +6,7 @@
 # Note: If I end up creating a separate Firebase project for a staging environment, see this
 #        answer about how to modify the "deploy --only functions" command: https://stackoverflow.com/a/62398821/718325 
 
-name: Firebase functions deploy
+name: Firebase functions deploy (Prod)
 
 on:
   push:
@@ -25,7 +25,7 @@ jobs:
         - name: Deploy Functions to Firebase
           uses: w9jds/firebase-action@master
           with:
-            args: deploy --only functions
+            args: deploy --only functions --project prod
           env:
             # We need to either specify a FIREBASE_TOKEN or a GCP_SA_KEY environment variable.  
             # See: https://github.com/w9jds/firebase-action#environment-variables
