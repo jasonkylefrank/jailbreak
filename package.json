@@ -38,7 +38,15 @@
 
     "//build-ci:staging": "Build script for a CI/CD environment (e.g., GitHub actions) for the staging build. The 'firebase use __' is needed to set the Firebase project context so that the other firebase cli command which grabs project config will work correctly.",
     "build-ci:staging": "firebase use staging --token '$FIREBASE_TOKEN'  &&  npm run build",
+
+
+
     
+    "build-ci:staging--TEMP": "echo '$FIREBASE_TOKEN'",
+    
+
+
+
     "//build-ci:prod": "Build script for a CI/CD environment (e.g., GitHub actions) for the prod build",
     "build-ci:prod": "firebase use prod --token '$FIREBASE_TOKEN'  &&  npm run build",
 
