@@ -41,8 +41,8 @@
 
 
 
-    
-    "build-ci:staging--TEMP": "echo '$FIREBASE_TOKEN'",
+
+    "build-ci:staging--TEMP": "echo $FIREBASE_TOKEN",
     
 
 
