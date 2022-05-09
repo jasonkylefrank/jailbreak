@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       # - run: npm ci  &&  npm run build-ci:staging
-      - run: run: npm ci  &&  npm run build-ci:staging--TEMP
+      - run: npm ci  &&  npm run build-ci:staging--TEMP
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
