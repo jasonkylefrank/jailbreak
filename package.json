@@ -36,11 +36,32 @@
     "//build": "Builds front-end code for production, then exports the static assets to be deployed.",
     "build": "npm run get-firebase-config  &&  next build  &&  next export",
 
+    "//build-ci": "Build script for a CI/CD environment (GitHub actions). Part of build & deploy process is specified in the workflow yml file (it has to be done there due to GitHub action environment variable rules, it seems).  I can not run get-firebase-config on the CI/CD environment due to not being able to specify the token here in this file.",
+    "build-ci": "next build  &&  next export",
+
+
+    
+    
+    
+    
+    
+    "//(1)build-ci:staging--TEMP": "Debugging why the firebase CLI commands in the build-ci:staging or get-firebase-config don't work.",
+    "//(2)build-ci:staging--TEMP": "echo $FIREBASE_TOKEN appears to render nothing (empty string?) on the GitHub action run. $secrets.FIREBASE_TOKEN renders '.FIREBASE_TOKEN'.  I think that var may only be available to the workflow file.",
+    "build-ci:staging--TEMP": "echo $secrets.FIREBASE_TOKEN",
+    
+    
+    
+    
     "//build-ci:staging": "Build script for a CI/CD environment (e.g., GitHub actions) for the staging build. The 'firebase use __' is needed to set the Firebase project context so that the other firebase cli command which grabs project config will work correctly.",
     "build-ci:staging": "firebase use staging --token '$FIREBASE_TOKEN'  &&  npm run build",
-    
+
     "//build-ci:prod": "Build script for a CI/CD environment (e.g., GitHub actions) for the prod build",
     "build-ci:prod": "firebase use prod --token '$FIREBASE_TOKEN'  &&  npm run build",
+
+
+
+
+
 
 
     "//build:emulators": "Builds front-end code for production, exports the static assets, generates a temporary env file so the Firebase emulators will be used instead of real backend",
