@@ -8,9 +8,6 @@ const Page = styled.div`
   flex-direction: column;
   /* Take up all remaining space */
   flex: 1;
-  
-  /* Dreamin' about the Keys... */
-  background-color: rgba(0 226 236 / 20%);
 `;
 //#endregion --- end Styled Components ---
 
