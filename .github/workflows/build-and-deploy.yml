@@ -1,0 +1,124 @@
+
+name: Build & deploy
+
+on:
+  workflow_call:
+    inputs:
+      envName:
+        description: "'staging' | 'prod'. The deployment environment (needed so we know which Firebase env variables to use)."
+        required: true
+        type: string  # Must be either 'boolean', 'number', or 'string'    
+        # default: "staging"
+      channelId:
+        description: "The ID of the Firebase hosting channel to deploy to. Pass nothing to deploy to a generated preview channel. Pass 'live' to deploy to the normal site."
+        required: false
+        type: string
+
+
+
+
+jobs:
+  validate_pr_source:
+    name: Validate PR is from same repo (if PR triggered this workflow)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print error and exit
+        # Only proceed if a PR is from the same repo. I.e., that PR is not from a fork.
+        if: |
+          (github.event_name == 'pull_request') && (github.event.pull_request.head.repo.full_name != github.repository)
+        run: |
+          echo 'Error: This workflow is only intended to run for PRs from the same repo. This PR is from repo: ${{ github.event.pull_request.head.repo.full_name }}'
+          exit 1
+
+
+  validate_inputs:
+    name: Validate inputs
+    runs-on: ubuntu-latest
+    steps:    
+      - name: Validate 'envName' input- print error and exit
+        # Note: We don't have to validate whether or not a required input was passed-in since GitHub will validate that
+        #  aspect if we set the input as 'required'
+        # Inspiration: https://github.community/t/how-to-write-multi-line-condition-in-if/128477/2
+        if: |
+          (inputs.envName != 'staging'  &&  inputs.envName != 'prod')
+        run: echo "'Required input 'envName' must be set to either 'staging' or 'prod'. You passed '${{ inputs.envName }}'"; exit 1;
+
+
+  install_deps_and_build:
+    name: Install deps & build
+    needs: [validate_pr_source, validate_inputs]
+    runs-on: ubuntu-latest
+
+    steps:        
+      - name: Checkout the commit
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm ci
+        # working-directory: ./frontend
+
+      - name:   Build the app for 'staging'
+        if: ${{ inputs.envName == 'staging' }}
+        run: npm run build
+        # working-directory: ./frontend
+        env:
+          NEXT_PUBLIC__FIREBASE_CONFIG__API_KEY:             ${{ secrets.STAGING__NEXT_PUBLIC__FIREBASE_CONFIG__API_KEY }}
+          NEXT_PUBLIC__FIREBASE_CONFIG__AUTH_DOMAIN:         ${{ secrets.STAGING__NEXT_PUBLIC__FIREBASE_CONFIG__AUTH_DOMAIN }}
+          NEXT_PUBLIC__FIREBASE_CONFIG__PROJECT_ID:          ${{ secrets.STAGING__NEXT_PUBLIC__FIREBASE_CONFIG__PROJECT_ID }}
+          NEXT_PUBLIC__FIREBASE_CONFIG__STORAGE_BUCKET:      ${{ secrets.STAGING__NEXT_PUBLIC__FIREBASE_CONFIG__STORAGE_BUCKET }}
+          NEXT_PUBLIC__FIREBASE_CONFIG__MESSAGING_SENDER_ID: ${{ secrets.STAGING__NEXT_PUBLIC__FIREBASE_CONFIG__MESSAGING_SENDER_ID }}
+          NEXT_PUBLIC__FIREBASE_CONFIG__APP_ID:              ${{ secrets.STAGING__NEXT_PUBLIC__FIREBASE_CONFIG__APP_ID }}
+          NEXT_PUBLIC__FIREBASE_CONFIG__MEASUREMENT_ID:      ${{ secrets.STAGING__NEXT_PUBLIC__FIREBASE_CONFIG__MEASUREMENT_ID }}
+
+
+      - name:   Build the app for 'prod'
+        if: ${{ inputs.envName == 'prod' }}
+        run: npm run build
+        # working-directory: ./frontend
+        env:
+          NEXT_PUBLIC__FIREBASE_CONFIG__API_KEY:             ${{ secrets.NEXT_PUBLIC__FIREBASE_CONFIG__API_KEY }}
+          NEXT_PUBLIC__FIREBASE_CONFIG__AUTH_DOMAIN:         ${{ secrets.NEXT_PUBLIC__FIREBASE_CONFIG__AUTH_DOMAIN }}
+          NEXT_PUBLIC__FIREBASE_CONFIG__PROJECT_ID:          ${{ secrets.NEXT_PUBLIC__FIREBASE_CONFIG__PROJECT_ID }}
+          NEXT_PUBLIC__FIREBASE_CONFIG__STORAGE_BUCKET:      ${{ secrets.NEXT_PUBLIC__FIREBASE_CONFIG__STORAGE_BUCKET }}
+          NEXT_PUBLIC__FIREBASE_CONFIG__MESSAGING_SENDER_ID: ${{ secrets.NEXT_PUBLIC__FIREBASE_CONFIG__MESSAGING_SENDER_ID }}
+          NEXT_PUBLIC__FIREBASE_CONFIG__APP_ID:              ${{ secrets.NEXT_PUBLIC__FIREBASE_CONFIG__APP_ID }}
+          NEXT_PUBLIC__FIREBASE_CONFIG__MEASUREMENT_ID:      ${{ secrets.NEXT_PUBLIC__FIREBASE_CONFIG__MEASUREMENT_ID }}
+
+
+      - name: Archive the build (so other jobs can access it)
+        uses: actions/upload-artifact@v3 # See this example in the docs: https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts#example
+        with:
+          # The name we assign to our archive.
+          name: ${{ secrets.BUILD_ARCHIVE_NAME__HACK }}
+          # The path to the directory (or directories or files) that we want to archive (see the example noted above)
+          path: |
+            out
+            firebase.json
+
+
+
+  deploy:
+    name: Deploy
+    needs: [install_deps_and_build]
+    runs-on: ubuntu-latest
+
+    steps:        
+      - name: Download the built artifacts
+        uses: actions/download-artifact@v3
+        # with:       
+          # The archive name to download. If you omit the 'name' input, then all artifacts of this workflow run are downloaded
+
+
+      # This step is for debugging purposes only (can be deleted)
+      - name: Checking the archive contents in this context
+        run: ls ./${{ secrets.BUILD_ARCHIVE_NAME__HACK }}
+
+
+      - name: Deploy to Firebase hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:          
+          entryPoint: ./${{ secrets.BUILD_ARCHIVE_NAME__HACK }}  # Path to the firebase.json file
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          channelId: ${{ inputs.channelId }}          
+          firebaseServiceAccount: ${{ (inputs.envName == 'staging' && secrets.FIREBASE_SERVICE_ACCOUNT_JAILBREAK_GAME__STAGING) || (inputs.envName == 'prod' && secrets.FIREBASE_SERVICE_ACCOUNT_JAILBREAK_GAME) }}
+          projectId: ${{ (inputs.envName == 'staging' && secrets.STAGING__NEXT_PUBLIC__FIREBASE_CONFIG__PROJECT_ID) || (inputs.envName == 'prod' && secrets.NEXT_PUBLIC__FIREBASE_CONFIG__PROJECT_ID) }}

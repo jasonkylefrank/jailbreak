@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "jailbreak-game"
-  }
+    "staging": "jailbreak-game--staging",
+    "prod": "jailbreak-game"
+  },
+  "targets": {}
 }

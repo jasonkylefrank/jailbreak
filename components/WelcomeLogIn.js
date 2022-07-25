@@ -6,6 +6,7 @@ import styled from "styled-components";
 import Button from '@mui/material/Button';
 import { useContext, useEffect } from "react";
 import { UserAuthContext } from "../lib/context";
+import { firebaseProjectId } from "../lib/firebase";
 
 const Page = styled.div`
   display: flex;
@@ -13,6 +14,17 @@ const Page = styled.div`
   align-items: center;
   justify-content: center;
   flex: 1;
+`;
+
+
+const TempP = styled.p`
+  margin-top: 40px;
+  color: rgba(0,0,0,0.54);
+  font-size: 0.85rem;
+`;
+const TempProjId = styled.span`
+  font-weight: 500;
+  color: rgba(0,0,0,0.75);
 `;
 
 export default function WelcomeLogIn() {
@@ -77,6 +89,8 @@ export default function WelcomeLogIn() {
             </>          
           : <LogInButton />
       }
+
+      <TempP>Current Firebase project ID: <TempProjId>{firebaseProjectId}</TempProjId></TempP>
     </Page>
   );
 }
