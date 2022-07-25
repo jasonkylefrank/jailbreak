@@ -1,0 +1,22 @@
+
+name: Deploy on PR or merge (Staging)
+on: 
+  pull_request:
+    branches:
+      - staging
+  push:
+    branches:
+      - staging
+
+
+
+jobs:
+  build_and_deploy:
+    name: Build & deploy
+    uses: ./.github/workflows/build-and-deploy.yml
+    with:
+      envName: staging
+      # If this workflow was triggered by a PR, then pass " " so it will be deployed to a preview channel (and gets a generated channel id).
+      # If triggered by a merge, pass "live" so that it deploys to the normal site for this particular environment.
+      channelId: ${{ (github.event_name == 'pull_request' && ' ') || (github.event_name == 'push' && 'live') }}
+    secrets: inherit
