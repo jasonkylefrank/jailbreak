@@ -6,7 +6,11 @@ import WelcomeLogIn from '../components/WelcomeLogIn';
 const Page = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 1; ${'' /* So that it takes up all remaining space */}
+  /* Take up all remaining space */
+  flex: 1;
+  
+  /* Dreamin' about the Keys... */
+  background-color: rgba(0 226 236 / 20%);
 `;
 //#endregion --- end Styled Components ---
 
