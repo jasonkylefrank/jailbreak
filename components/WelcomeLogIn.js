@@ -16,6 +16,17 @@ const Page = styled.div`
   flex: 1;
 `;
 
+
+const TempP = styled.p`
+  margin-top: 40px;
+  color: rgba(0,0,0,0.54);
+  font-size: 0.85rem;
+`;
+const TempProjId = styled.span`
+  font-weight: 500;
+  color: rgba(0,0,0,0.75);
+`;
+
 export default function WelcomeLogIn() {
   const { userAuth } = useContext(UserAuthContext);
 
@@ -79,7 +90,7 @@ export default function WelcomeLogIn() {
           : <LogInButton />
       }
 
-      <p>Current Firebase project ID: {firebaseProjectId}</p>
+      <TempP>Current Firebase project ID: <TempProjId>{firebaseProjectId}</TempProjId></TempP>
     </Page>
   );
 }
