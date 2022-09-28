@@ -10,7 +10,6 @@ import GlobalStyle from '../styles/globalStyles';
 import { UserAuthContext } from '../lib/context';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../lib/firebase';
-import Layout from '../components/Layout';
 
 
 // Theme approach:  

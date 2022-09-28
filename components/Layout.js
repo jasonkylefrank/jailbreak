@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import styled from "styled-components";
-import PageHeader from './PageHeader';
-import RenderOnClientOnly from './RenderOnClientOnly';
-import EmulationNotice from './EmulationNotice';
+import PageHeader from './pageHeader';
+import RenderOnClientOnly from './renderOnClientOnly';
+import EmulationNotice from './emulationNotice';
 import { emulatedFirebaseServices } from '../lib/firebase';
 
 

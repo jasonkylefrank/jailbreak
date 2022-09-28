@@ -3,8 +3,8 @@ import { auth  } from "../lib/firebase";
 import styled from "styled-components";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import Avatar from './Avatar';
-import LogInButton from "./LogInButton";
+import Avatar from './avatar';
+import LogInButton from "./logInButton";
 import { useContext, useState } from "react";
 import { UserAuthContext } from "../lib/context";
 

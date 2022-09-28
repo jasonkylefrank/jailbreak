@@ -1,7 +1,7 @@
 import { signOut } from "firebase/auth";
 import { doc, getDoc, setDoc, collection, getDocs } from 'firebase/firestore';
 import { auth, firestore } from "../lib/firebase";
-import LogInButton from "./LogInButton";
+import LogInButton from "./logInButton";
 import styled from "styled-components";
 import Button from '@mui/material/Button';
 import { useContext, useEffect } from "react";
