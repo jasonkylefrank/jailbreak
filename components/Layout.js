@@ -40,7 +40,11 @@ const Footer = styled.footer`
 
 //#endregion --- end styled components ---
 
-export default function Layout({ children }) {
+export default function Layout({ children, title }) {
+  const titleSuffix = 'Jailbreak!';
+  const fullTitle = title ? `${title} • ${titleSuffix}` : titleSuffix;
+
+
   // TODO: Consider implementing a logged-in check here (observing the userAuth available in a 
   //         React context) which would redirect a non-logged-in user who is trying to access
   //         a page that requires being logged in to a login page.
@@ -55,7 +59,7 @@ export default function Layout({ children }) {
   return (
     <Wrapper>
       <Head>
-        <title>Jailbreak!</title>
+        <title>{fullTitle}</title>
         <link rel="icon" href="/favicon.ico" />    
         {/* Also see stuff put in a <Head> element in the _document.js file (such as fonts, which Next.js won't let me put here)     */}
       </Head>

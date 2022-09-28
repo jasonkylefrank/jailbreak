@@ -25,6 +25,10 @@ function MyApp({ Component, pageProps }) {
 
   const [userAuth] = useAuthState(auth);
 
+  // Use the layout defined at the page level, if available
+  const getLayout = Component.getLayout || ((page) => page);
+  const componentWithLayout = getLayout(<Component {...pageProps} />);
+
   return (
     <>
       {/* Need this so we can override MUI styles.  See: https://stackoverflow.com/a/69210767/718325 */}
@@ -34,9 +38,7 @@ function MyApp({ Component, pageProps }) {
               <GlobalStyle />
 
               <UserAuthContext.Provider value={{ userAuth }}>
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
+                {componentWithLayout}
               </UserAuthContext.Provider>
           </ThemeProvider>
         </MUIThemeProvider>

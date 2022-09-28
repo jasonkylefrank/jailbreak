@@ -13,7 +13,7 @@ const Page = styled.div`
 
 
 
-export default function Home() {
+export default function Index() {
 
   return (
     <Page>
