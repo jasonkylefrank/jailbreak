@@ -5,11 +5,13 @@
 // ...instead, importing from '@mui/material/styles' works for my setup. Some of MUI's docs show using these imports, e.g., https://mui.com/customization/theme-components/#global-style-overrides
 import { ThemeProvider as MUIThemeProvider, createTheme as createMUITheme, StyledEngineProvider } from '@mui/material/styles';
 import { ThemeProvider } from 'styled-components';
+import { useRouter } from 'next/router';
 import muiCompatibleTheme from '../styles/theme';
 import GlobalStyle from '../styles/globalStyles';
 import { UserAuthContext } from '../lib/context';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../lib/firebase';
+import ProtectRoutes from '../components/protectRoutes';
 
 
 // Theme approach:  
@@ -22,7 +24,8 @@ const muiTheme = createMUITheme(muiCompatibleTheme);
 
 function MyApp({ Component, pageProps }) {
 
-  const [userAuth] = useAuthState(auth);
+  const [userAuth, isAuthLoading] = useAuthState(auth);
+  const router = useRouter();
 
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout || ((page) => page);
@@ -37,7 +40,9 @@ function MyApp({ Component, pageProps }) {
               <GlobalStyle />
 
               <UserAuthContext.Provider value={{ userAuth }}>
-                {componentWithLayout}
+                <ProtectRoutes userAuth={ userAuth } isAuthLoading={ isAuthLoading } router={ router }>
+                  {componentWithLayout}
+                </ProtectRoutes>
               </UserAuthContext.Provider>
           </ThemeProvider>
         </MUIThemeProvider>
