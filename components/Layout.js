@@ -60,7 +60,7 @@ export default function Layout({ children, title }) {
     <Wrapper>
       <Head>
         <title>{fullTitle}</title>
-        <link rel="icon" href="/favicon.ico" />    
+        <link rel="icon" href="/favicon.svg" />    
         {/* Also see stuff put in a <Head> element in the _document.js file (such as fonts, which Next.js won't let me put here)     */}
       </Head>
 
