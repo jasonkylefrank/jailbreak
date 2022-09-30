@@ -6,6 +6,11 @@ const muiCompatibleTheme = {
         primary: {
             main: '#06a5eb',
             //contrastText: '#fff'
+        },
+        text: {
+            primary: 'rgba(0,0,0,0.87)', // normal
+            secondary: 'rgba(0,0,0,0.54)', // subdued
+            disabled: 'rgba(0,0,0,0.3)'
         }
     }
 };

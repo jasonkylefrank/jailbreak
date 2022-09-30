@@ -1,10 +1,9 @@
 import { signOut } from "firebase/auth";
-import { doc, getDoc, setDoc, collection, getDocs } from 'firebase/firestore';
-import { auth, firestore } from "../lib/firebase";
+import { auth } from "../lib/firebase";
 import LogInButton from "./logInButton";
 import styled from "styled-components";
 import Button from '@mui/material/Button';
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { UserAuthContext } from "../lib/context";
 import { firebaseProjectId } from "../lib/firebase";
 
@@ -29,54 +28,6 @@ const TempProjId = styled.span`
 
 export default function WelcomeLogIn() {
   const { userAuth } = useContext(UserAuthContext);
-
-  // Handle user log in event
-  useEffect(() => {
-
-    if (userAuth) {
-      
-      try { 
-        ( async () => {
-          const userDocRef = doc(firestore, 'users', userAuth.uid);
-          const userDocSnap = await getDoc(userDocRef);
-          
-          // Add a new user doc if this user doesn't have one yet
-          if (!userDocSnap.exists()) {
-            const { uid, displayName, email, photoURL } = userAuth;
-  
-            await setDoc(userDocRef, {
-              uid,
-              displayName,
-              email,
-              photoURL
-            });
-          }
-        })();       
-      } catch (error) {
-        console.error(error);
-      }
-    }
-      
-  }, [userAuth]);
-
-  // TEMP ---------
-  useEffect(() => {
-    ( async () => {
-        if (userAuth) {
-          try {
-            const docsSnapshot = await getDocs(collection(firestore, 'users'));
-        
-            docsSnapshot.forEach(doc => console.log(doc.data()));          
-          } catch (error) {
-            console.log(error);
-          }          
-        } else {
-          console.log('User not logged in, so I\'m not trying to read from the database');
-        }
-    })();    
-  }, [userAuth]);
-  
-  
 
   return (
     <Page>

@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import styled from "styled-components";
+import { Container, Main } from "../components/_sharedStyles";
 import PageHeader from './pageHeader';
 import RenderOnClientOnly from './renderOnClientOnly';
 import EmulationNotice from './emulationNotice';
@@ -13,13 +14,6 @@ const Wrapper = styled.div`
   min-height: 100vh;
 `;
 
-const Main = styled.main`
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
-  ${'' /* So that it takes up all remaining space */}
-  flex: 1;  
-`;
 
 const Footer = styled.footer`
   height: 48px;
@@ -45,17 +39,6 @@ export default function Layout({ children, title }) {
   const fullTitle = title ? `${title} • ${titleSuffix}` : titleSuffix;
 
 
-  // TODO: Consider implementing a logged-in check here (observing the userAuth available in a 
-  //         React context) which would redirect a non-logged-in user who is trying to access
-  //         a page that requires being logged in to a login page.
-  //       I could probably use the Next.js router to do a "router.push('/Login')" here in this
-  //         file to accomplish that.  See this part of a video which shows how to implement 
-  //         "protected routes", where he does something similar: https://youtu.be/DHZSYYTCTbA?t=123
-  //       Similarly, if the user is logged-in, then the Login page should redirect to a different page.
-  //       Side note about his technique compared to mine: Unlike his situation, my *data* will be 
-  //         protected from reaching the front-end via Firestore security rules (so I don't need to do 
-  //         the backend _middleware.js check that he does).
-
   return (
     <Wrapper>
       <Head>
@@ -66,9 +49,11 @@ export default function Layout({ children, title }) {
 
       <PageHeader />
 
-      <Main>
-        { children }
-      </Main>
+      <Container>
+        <Main>
+            {children}
+        </Main>
+      </Container>
 
       <Footer>
         Powered by D3.js, Next.js, Styled Components, MUI v5, and Firebase technologies
