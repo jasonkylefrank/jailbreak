@@ -91,9 +91,12 @@ jobs:
           # The name we assign to our archive.
           name: ${{ secrets.BUILD_ARCHIVE_NAME__HACK }}
           # The path to the directory (or directories or files) that we want to archive (see the example noted above)
+          #  Besides the frontend build, be sure to include other assets which should be deployed, such as Firebase config or Firestore indexes, security rules, etc.
           path: |
             out
             firebase.json
+            firestore.indexes.json
+            firestore.rules
 
 
 
