@@ -118,6 +118,8 @@ jobs:
 
 
       - name: Deploy to Firebase hosting
+        # The advantage of using this deployment action (for hosting) from FirebaseExtended is that it will open a "preview channel" if a PR is opened.
+        #  So even though we have a more-general Firebase deployment step below, this separate hosting deployment step has this advantage.
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:          
           entryPoint: ./${{ secrets.BUILD_ARCHIVE_NAME__HACK }}  # Path to the firebase.json file
