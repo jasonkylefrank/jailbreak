@@ -135,5 +135,5 @@ jobs:
         run: |
           sudo npm install -g firebase-tools
           cd ./${{ secrets.BUILD_ARCHIVE_NAME__HACK }}
-          firebase use ${{ (inputs.envName == 'staging' && 'staging') || (inputs.envName == 'prod' && 'prod') }}
-          firebase deploy --only firestore
+          firebase use ${{ (inputs.envName == 'staging' && 'staging') || (inputs.envName == 'prod' && 'prod') }}  --token  ${{ secrets.FIREBASE_TOKEN }}
+          firebase deploy --only firestore --token  ${{ secrets.FIREBASE_TOKEN }}
