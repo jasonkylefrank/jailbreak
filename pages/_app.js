@@ -62,11 +62,11 @@ function MyApp({ Component, pageProps }) {
             // TEMP: Check the user's orgs
             userOrgDocsSnap.docs.forEach(async userOrgSnap => { 
               const userOrg = userOrgSnap.data();
-              console.log(userOrg);
-              // Get the corresponding orgs collection and print its name
+              console.log('UserOrg data: ', userOrg);
+              // Get the corresponding Org document and print its name
               const orgDocRef = doc(firestore, 'orgs', userOrg.orgID);
               const orgDocSnap = await getDoc(orgDocRef);
-              console.log(orgDocSnap.data());              
+              console.log('Org data: ', orgDocSnap.data());              
             });            
 
 

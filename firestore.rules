@@ -16,33 +16,21 @@ service cloud.firestore {
     }
 
     match /orgs/{orgId} {
-      // TODO: update this...
-      //allow read: if isLoggedIn()
-      //allow read: if isLoggedIn() && get(/databases/{database}/documents/users/{userId}/userOrgs/{userOrgId}).orgID == orgId
-      // allow read: if isLoggedIn() && (get(/users/{request.auth.uid}/userOrgs/{userOrgId}).data.orgID == orgId)
       allow read: if 
-        isLoggedIn() 
-        // ------ error ---
-        //&& exists(/databases/$(database)/documents/users/$(request.auth.uid)/userOrgs/$(userOrgId))
-        // ------ error ---
-        // && exists(/databases/$(database)/documents/users/$(request.auth.uid)/userOrgs/{userOrgId})
-        // ------ error ---
-        // && exists(/databases/$(database)/documents/users/$(request.auth.uid)/userOrgs/userOrg)
-        // ------ error ---
-        // && exists(/databases/$(database)/documents/users/$(request.auth.uid)/userOrgs)
-        // ------ error ---
-        // && (get(/databases/$(database)/documents/users/$(request.auth.uid)/userOrgs/$(userOrgId)).data.orgID == orgId)
-        // ------ error ---
-        // && (get(/databases/$(database)/documents/users/$(request.auth.uid)/userOrgs/{userOrgId}).data.orgID == orgId)
-
-
-        // UPDATE: I changed my ID approach on the users/user/userOrgs/userOrg document to use the orgId as that document's ID (instead of auto-generating that ID)...
-        //          I think that will make this security rule dramatically simpler to write.
-        && (get(/databases/$(database)/documents/users/$(request.auth.uid)/userOrgs/$(orgId)).data.orgID == orgId)
+        isLoggedIn()
+        && isLoggedInUserMemberOfOrg(orgId)
     }
 
     function isLoggedIn() {
       return request.auth != null;
+    }
+
+    // The orgId parameter should be the ID of an Org doc.
+    function isLoggedInUserMemberOfOrg(orgId) {
+      // Notice that we expect the userOrg doc to use the same ID as the corresponding Org doc's ID in this data model
+      //  (rather than using an auto-generated ID for the userOrg document).  This made writing security rules dramatically
+      //  easier (I actually could not figure out how to write the security rule when I used auto-generated IDs for the userOrg doc).
+      return (get(/databases/$(database)/documents/users/$(request.auth.uid)/userOrgs/$(orgId)).data.orgID == orgId);      
     }
   }
 }
