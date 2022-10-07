@@ -19,6 +19,8 @@ service cloud.firestore {
       allow read: if 
         isLoggedIn()
         && isLoggedInUserMemberOfOrg(orgId)
+
+      // TODO: create rules for writing to an org doc
     }
 
     function isLoggedIn() {
