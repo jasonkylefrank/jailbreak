@@ -125,3 +125,12 @@ jobs:
           channelId: ${{ inputs.channelId }}          
           firebaseServiceAccount: ${{ (inputs.envName == 'staging' && secrets.FIREBASE_SERVICE_ACCOUNT_JAILBREAK_GAME__STAGING) || (inputs.envName == 'prod' && secrets.FIREBASE_SERVICE_ACCOUNT_JAILBREAK_GAME) }}
           projectId: ${{ (inputs.envName == 'staging' && secrets.STAGING__NEXT_PUBLIC__FIREBASE_CONFIG__PROJECT_ID) || (inputs.envName == 'prod' && secrets.NEXT_PUBLIC__FIREBASE_CONFIG__PROJECT_ID) }}
+
+
+      - name: Deploy other Firebase assets (security rules, Firestore indexes, cloud functions, etc.)
+        # TODO: Update the "firebase deploy --only" command to include things like cloud functions or cloud storage if I start using them
+        # Note: The "firestore" in the "firebase deploy --only firestore" command deploys both the indexes file and the security rules file for Firestore.  See: https://firebase.google.com/docs/cli/#partial_deploys
+        run: |
+          sudo npm install -g firebase-tools
+          firebase use ${{ (inputs.envName == 'staging' && staging) || (inputs.envName == 'prod' && prod) }}  --token  ${{ secrets.FIREBASE_TOKEN }}
+          firebase deploy --only firestore --token  ${{ secrets.FIREBASE_TOKEN }}
