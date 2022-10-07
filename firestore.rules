@@ -1,20 +1,38 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      //allow read, write: if false;
 
-      match /users/{userId} {
-        // TODO: At some point we may need to enhance this to only allow reading
-        //        users in the same game, or if the authenticated user is an admin.
-        allow read: if isLoggedIn(); 
-        allow write: if request.auth.uid == userId;
+    match /users/{userId} {
+      // TODO: At some point we may need to enhance this to only allow reading
+      //        users in the same org, etc.
+      allow read: if isLoggedIn();
+      // Users can only write to their own doc
+      allow write: if request.auth.uid == userId;
+
+      // Matches any document in the 'userOrgs' collection or subcollections.
+      match /userOrgs/{userOrgId} {
+        allow read: if isLoggedIn() && request.auth.uid == userId;
       }
+    }
 
-      function isLoggedIn() {
-        return request.auth != null;
-      }
+    match /orgs/{orgId} {
+      allow read: if 
+        isLoggedIn()
+        && isLoggedInUserMemberOfOrg(orgId)
 
+      // TODO: create rules for writing to an org doc
+    }
+
+    function isLoggedIn() {
+      return request.auth != null;
+    }
+
+    // The orgId parameter should be the ID of an Org doc.
+    function isLoggedInUserMemberOfOrg(orgId) {
+      // Notice that we expect the userOrg doc to use the same ID as the corresponding Org doc's ID in this data model
+      //  (rather than using an auto-generated ID for the userOrg document).  This made writing security rules dramatically
+      //  easier (I actually could not figure out how to write the security rule when I used auto-generated IDs for the userOrg doc).
+      return (get(/databases/$(database)/documents/users/$(request.auth.uid)/userOrgs/$(orgId)).data.orgID == orgId);      
     }
   }
 }

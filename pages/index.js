@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import WelcomeLogIn from '../components/WelcomeLogIn';
+import Layout from "../components/layout";
+import WelcomeLogIn from '../components/welcomeLogIn';
 
 
 //#region --- Styled Components ---
@@ -13,7 +14,7 @@ const Page = styled.div`
 
 
 
-export default function Home() {
+export default function Index() {
 
   return (
     <Page>
@@ -22,3 +23,12 @@ export default function Home() {
     </Page>
   )
 }
+
+Index.getLayout = function getLayout(page) {
+  return (
+    <Layout>
+      {page}
+    </Layout>
+  );
+};
+

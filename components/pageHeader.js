@@ -1,10 +1,11 @@
 import { signOut } from "firebase/auth";
 import { auth  } from "../lib/firebase";
 import styled from "styled-components";
+import Logo from "./logo";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import Avatar from './Avatar';
-import LogInButton from "./LogInButton";
+import Avatar from './avatar';
+import LogInButton from "./logInButton";
 import { useContext, useState } from "react";
 import { UserAuthContext } from "../lib/context";
 
@@ -16,11 +17,6 @@ const Header = styled.header`
     justify-content: space-between;
 `;
 
-const H1 = styled.h1`
-    margin: 0;
-    font-weight: normal;
-    font-size: 24px;
-`;
 
 export default function PageHeader() {
 
@@ -36,7 +32,7 @@ export default function PageHeader() {
 
     return (
         <Header>
-            <H1>Jailbreak</H1>
+            <Logo />
 
             <Avatar src={avatarSrc} onClick={handleAvatarClick} />
 

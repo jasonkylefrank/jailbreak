@@ -3,10 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "//firebase-emulate": "Runs Firebase emulators, importing data on-load & exporting on exit.",
+    "firebase-emulate": "firebase emulators:start  --import=./emulator-data  --export-on-exit",
     "dev": "next dev",
+    "dev-emulate": "npm-run-all --parallel firebase-emulate  dev",
     "build": "next build  &&  next export",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@emotion/react": "^11.8.1",
@@ -22,9 +27,11 @@
     "styled-components": "^5.3.3"
   },
   "devDependencies": {
+    "@firebase/rules-unit-testing": "^2.0.4",
     "eslint": "8.9.0",
     "eslint-config-next": "12.1.0",
-    "firebase-tools": "^10.8.0",
-    "npm-run-all": "^4.1.5"
+    "firebase-tools": "^11.14.1",
+    "npm-run-all": "^4.1.5",
+    "vitest": "^0.23.4"
   }
 }
