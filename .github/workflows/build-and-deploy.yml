@@ -134,5 +134,5 @@ jobs:
         # Note: The "firestore" in the "firebase deploy --only firestore" command deploys both the indexes file and the security rules file for Firestore.  See: https://firebase.google.com/docs/cli/#partial_deploys
         run: |
           sudo npm install -g firebase-tools
-          firebase use ${{ (inputs.envName == 'staging' && staging) || (inputs.envName == 'prod' && prod) }}  --token  ${{ secrets.FIREBASE_TOKEN }}
+          firebase use ${{ (inputs.envName == 'staging' && 'staging') || (inputs.envName == 'prod' && 'prod') }}  --token  ${{ secrets.FIREBASE_TOKEN }}
           firebase deploy --only firestore --token  ${{ secrets.FIREBASE_TOKEN }}
